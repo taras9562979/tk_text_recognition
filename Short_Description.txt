@@ -4,5 +4,6 @@ Schematic Neural_Net visualization:
     iii) Move Mode -> (mouse drag-and-drop)
     iv) Connect Mode ->connect existing Nodes by Arrows (1st left-click -> choose Start Nodes
                                                          2nd left-click -> choose End Node and draw an Arrows)
+    v) Delete Mode -> deletes Node (all Arrows relating to this Node are deleted as well)
 
     * some parameters are displayed on web console for testing purposes
