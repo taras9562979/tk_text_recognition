@@ -1,5 +1,5 @@
 Schematic Neural_Net visualization:
-    i) Insert Mode <--> Move Mode <--> Connect Mode (switches by respective Button left-click)
+    i) Insert Mode <--> Move Mode <--> Connect Mode <--> Delete Mode (switches by respective Button left-click)
     ii) Inser Mode -> draws Nodes on the Canvas (mouse left-click)
     iii) Move Mode -> (mouse drag-and-drop)
     iv) Connect Mode ->connect existing Nodes by Arrows (1st left-click -> choose Start Nodes
