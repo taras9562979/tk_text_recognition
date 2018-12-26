@@ -2,7 +2,10 @@ var Nodes = {
     width: 60,
     height: 30,
     positions: [],
+    nodes_color: 'wheat',
     values: [],
+    values_color: 'darkgreen',
+    values_font: '16px Verdana',
     add_node: function(pos){
         this.positions.push(pos);
     }
@@ -44,23 +47,27 @@ function get_Value(){
     var res = (rnd_min+Math.random()*(rnd_max-rnd_min));
     return res;
 }
+function draw_Node(event,index,font,color){
+    var coordinates = [event.offsetX,event.offsetY];
+    ctx.fillRect(event.offsetX-Nodes.width/2,event.offsetY-Nodes.height/2,Nodes.width,Nodes.height);
+    Nodes.add_node(coordinates);
+    console.log(Nodes.positions);
+    Nodes.values.push(get_Value().toFixed(4));
+    console.log(Nodes.values);
+    str_value = Nodes.values[index];
+    console.log(str_value);
+    ctx.font = font;
+    ctx.fillStyle = color;
+    ctx.fillText(str_value,event.offsetX-Nodes.width*0.45,event.offsetY+Nodes.height*0.135);
+}
 function canvas_left_Clicked(event){
     if (mode=='Insert Mode'){
         var coordinates = [event.offsetX,event.offsetY];
-        ctx.fillStyle = 'wheat';
+        ctx.fillStyle = Nodes.nodes_color;
         var check = false;
 
         if (Nodes.positions.length==0){
-            ctx.fillRect(event.offsetX-Nodes.width/2,event.offsetY-Nodes.height/2,Nodes.width,Nodes.height);
-            Nodes.add_node(coordinates);
-            console.log(Nodes.positions);
-            Nodes.values.push(get_Value().toFixed(4));
-            console.log(Nodes.values);
-            str_value = Nodes.values[0];
-            console.log(str_value);
-            ctx.font = "16px Georgia";
-            ctx.fillStyle = 'brown';
-            ctx.fillText(str_value,event.offsetX-Nodes.width*0.4,event.offsetY+Nodes.height/8);
+            draw_Node(event,0,Nodes.values_font,Nodes.values_color);
             }
         for (let pos in Nodes.positions){
             if(isIn(event.offsetX,event.offsetY,Nodes.positions[pos][0],Nodes.positions[pos][1],Nodes.width,Nodes.height)) {
@@ -68,11 +75,8 @@ function canvas_left_Clicked(event){
             }
         }
         if (check==false){
-            ctx.fillRect(event.offsetX-Nodes.width/2,event.offsetY-Nodes.height/2,Nodes.width,Nodes.height);
-            Nodes.add_node(coordinates);
-            console.log(Nodes.positions);
+            draw_Node(event,Nodes.positions.length,Nodes.values_font,Nodes.values_color); 
         }
-
     }  
     if (mode=='Delete Mode'){
 
