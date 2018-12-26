@@ -1,29 +1,10 @@
-#buttons {
-    margin: 10px 30px;
-}
-#insert {
-    width: 100px;
+.buttons button {
+    margin: 10px 15px;
+    font-weight: bold;
+    background-color: aqua;
+    width: 110px;
     height: 30px;
-    background-color: aquamarine;
-    color:brown;
-}
-#move {
-    width: 100px;
-    height: 30px;
-    background-color: aquamarine;
-    color:brown;
-}
-#connect {
-    width: 100px;
-    height: 30px;
-    background-color: aquamarine;
-    color:brown;
-}
-#delete {
-    width: 100px;
-    height: 30px;
-    background-color: aquamarine;
-    color:brown;
+    color: darkred;
 }
 #canvas {
     width: 1500px;

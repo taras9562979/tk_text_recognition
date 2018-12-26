@@ -1,9 +1,11 @@
 Schematic Neural_Net visualization:
     i) Insert Mode <--> Move Mode <--> Connect Mode <--> Delete Mode (switches by respective Button left-click)
-    ii) Inser Mode -> draws Nodes on the Canvas (mouse left-click)
+    ii) Insert Mode -> draws Nodes on the Canvas (mouse left-click)
+                       Nodes values(initially generated randomly) for Input Nodes are displayed inside the Node
     iii) Move Mode -> (mouse drag-and-drop)
     iv) Connect Mode ->connect existing Nodes by Arrows (1st left-click -> choose Start Nodes
                                                          2nd left-click -> choose End Node and draw an Arrows)
     v) Delete Mode -> deletes Node (all Arrows relating to this Node are deleted as well)
+    vi) Calculate Mode -> performs Forward Propagation(initially) using Node Values and Weights
 
     * some parameters are displayed on web console for testing purposes
