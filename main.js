@@ -2,10 +2,10 @@ var Nodes = {
     width: 60,
     height: 30,
     positions: [],
+    values: [],
     add_node: function(pos){
         this.positions.push(pos);
     }
-
 }
 
 var insert_btn = document.getElementById('insert');
@@ -38,6 +38,12 @@ function isIn(ex,ey,x,y,w,h){
     condition = conditionX&&conditionY;
     return condition;
 }
+function get_Value(){
+    var rnd_min = 0.0001;
+    var rnd_max = 1;
+    var res = (rnd_min+Math.random()*(rnd_max-rnd_min));
+    return res;
+}
 function canvas_left_Clicked(event){
     if (mode=='Insert Mode'){
         var coordinates = [event.offsetX,event.offsetY];
@@ -48,6 +54,13 @@ function canvas_left_Clicked(event){
             ctx.fillRect(event.offsetX-Nodes.width/2,event.offsetY-Nodes.height/2,Nodes.width,Nodes.height);
             Nodes.add_node(coordinates);
             console.log(Nodes.positions);
+            Nodes.values.push(get_Value().toFixed(4));
+            console.log(Nodes.values);
+            str_value = Nodes.values[0];
+            console.log(str_value);
+            ctx.font = "16px Georgia";
+            ctx.fillStyle = 'brown';
+            ctx.fillText(str_value,event.offsetX-Nodes.width*0.4,event.offsetY+Nodes.height/8);
             }
         for (let pos in Nodes.positions){
             if(isIn(event.offsetX,event.offsetY,Nodes.positions[pos][0],Nodes.positions[pos][1],Nodes.width,Nodes.height)) {
