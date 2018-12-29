@@ -16,7 +16,53 @@ var Nodes = {
     }
 }
 
-var insert_btn = document.getElementById('insert');
+var Hiddens = {
+    width: 60,
+    height: 30,
+    positions: [],
+    hidens_color: 'violet',
+    values: [],
+    values_color: 'darkgreen',
+    values_font: '16px Verdana',
+    add_hidden: function(pos){
+        this.positions.push(pos);
+        console.log(this.positions);
+    },
+    add_hidden_value: function(val){
+        this.values.push(val);
+        console.log(this.values);
+    }
+}
+
+var Arrows = {
+    arrows_color: 'red',
+    starts: [],
+    ends: [],
+    start_end_pairs: [],
+    weights: [],
+    add_pair: function(){
+        for(let i=0;i<this.ends.length;i++){
+            this.start_end_pairs[i] = [ Number(this.starts[i]),Number(this.ends[i]) ];
+            }
+        return this.start_end_pairs;
+    },
+    filter_pair: function(){
+        for(let i=this.start_end_pairs.length-1;i>=0;i--){
+            let temp = this.start_end_pairs[i];
+            for(let j=0;j<i;j++){
+                let first = this.start_end_pairs[j][0]==temp[0];
+                let second = this.start_end_pairs[j][1]==temp[1];
+                if(first && second) {
+                    this.start_end_pairs.splice(i,1);
+                }
+            }
+        }
+        return this.start_end_pairs;
+    }
+}
+
+var insert_input_btn = document.getElementById('insert-input');
+var insert_hidden_btn = document.getElementById('insert-hidden');
 var move_btn = document.getElementById('move');
 var connect_btn = document.getElementById('connect');
 var delete_btn = document.getElementById('delete');
@@ -25,8 +71,12 @@ var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
 var mode = 'Empty';
 
-function insert_btn_Clicked(event){
-    mode = 'Insert Mode';
+function insert_input_btn_Clicked(event){
+    mode = 'Insert Input Node';
+    console.log(mode);
+}
+function insert_hidden_btn_Clicked(event){
+    mode = 'Insert Hidden Node';
     console.log(mode);
 }
 function move_btn_Clicked(event){
@@ -34,7 +84,7 @@ function move_btn_Clicked(event){
     console.log(mode);
 }
 function connect_btn_Clicked(event){
-    mode = 'Connect Mode';
+    mode = 'Connect Mode: choose Input Node';
     console.log(mode);
 }
 function delete_btn_Clicked(event){
@@ -67,8 +117,14 @@ function draw_Node(event,index,font,color){
     ctx.fillStyle = color;
     ctx.fillText(Nodes.values[index],event.offsetX-Nodes.width*0.45,event.offsetY+Nodes.height*0.135);
 }
+function draw_Hidden_Node(event){
+    var coordinates = [event.offsetX,event.offsetY];
+    ctx.fillRect(event.offsetX-Nodes.width/2,event.offsetY-Nodes.height/2,Nodes.width,Nodes.height);
+    Hiddens.add_hidden(coordinates);
+}
+
 function canvas_left_Clicked(event){
-    if (mode=='Insert Mode'){
+    if (mode=='Insert Input Node'){
         ctx.fillStyle = Nodes.nodes_color;
         var check = false;
 
@@ -84,12 +140,50 @@ function canvas_left_Clicked(event){
             draw_Node(event,Nodes.positions.length,Nodes.values_font,Nodes.values_color); 
         }
     }  
-    if (mode=='Delete Mode'){
-
+    if (mode=='Insert Hidden Node'){
+        ctx.fillStyle = Hiddens.hidens_color;
+        var check = false;
+        if (Hiddens.positions.length==0){
+            draw_Hidden_Node(event);
+            }
+        for (let pos in Hiddens.positions){
+            if(isIn(event.offsetX,event.offsetY,Hiddens.positions[pos][0],Hiddens.positions[pos][1],Hiddens.width,Hiddens.height)) {
+                check = true;
+            }
+        }
+        if (check==false){
+            draw_Hidden_Node(event); 
+        }
+    }
+    if (mode=='Connect Mode: choose Input Node'){
+        var check = false;
+        for(let pos in Nodes.positions){
+            if(isIn(event.offsetX,event.offsetY,Nodes.positions[pos][0],Nodes.positions[pos][1],Nodes.width,Nodes.height)) {
+                check = true;
+                Arrows.starts.push(pos);
+                //console.log('Input Node ',pos,' is selected');
+                mode = 'Connect Mode: choose Hidden Node';
+                console.log(mode);
+            }
+        }
+    }
+    if (mode=='Connect Mode: choose Hidden Node'){
+        for(let pos in Hiddens.positions){
+            if(isIn(event.offsetX,event.offsetY,Hiddens.positions[pos][0],Hiddens.positions[pos][1],Hiddens.width,Hiddens.height)){
+                Arrows.ends.push(pos);
+                //console.log('Hidden Node ',pos,' is selected');
+                Arrows.add_pair();
+                console.log(Arrows.filter_pair());
+                mode = 'Connect Mode: choose Input Node';
+                console.log(mode);
+            }
+        }
+        
     }
 }  
 
-insert_btn.addEventListener('click',insert_btn_Clicked);
+insert_input_btn.addEventListener('click',insert_input_btn_Clicked);
+insert_hidden_btn.addEventListener('click',insert_hidden_btn_Clicked);
 move_btn.addEventListener('click',move_btn_Clicked);
 connect_btn.addEventListener('click',connect_btn_Clicked);
 delete_btn.addEventListener('click',delete_btn_Clicked);

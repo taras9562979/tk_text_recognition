@@ -5,6 +5,7 @@ Schematic Neural_Net visualization:
     iii) Move Mode -> (mouse drag-and-drop)
     iv) Connect Mode ->connect existing Nodes by Arrows (1st left-click -> choose Start Nodes
                                                          2nd left-click -> choose End Node and draw an Arrows)
+        * if a pair [Start Node, End Node] already exists, new connection is not made
     v) Delete Mode -> deletes Node (all Arrows relating to this Node are deleted as well)
     vi) Calculate Mode -> performs Forward Propagation(initially) using Node Values and Weights
 
